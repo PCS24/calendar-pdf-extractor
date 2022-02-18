@@ -73,6 +73,18 @@ function findAdditionalEmergencyDays() {
     return document.body.innerText.match(/shall be taken.*([1-9]{1,2}\/[1-9]{1,2}(,*))+/g)[0].match(/[1-9]{1,2}\/[1-9]{1,2}/g).map((x)=>(x.split("/").map((x)=>(parseInt(x, 10))))).map((x)=>(new Date((x[0] >= 9 && x[0] <= 12) ? years[0] : years[1], x[0]-1, x[1])));
 }
 
+function findMarkingPeriodEndDates() {
+    // last day of each mp
+    let elt = Array.from(document.querySelectorAll('td > p')).filter((x)=>(x.innerText=='Marking Period End Dates'))[0].parentElement.parentElement.nextSibling;
+    let ret = new Object();
+    while (elt !== null) {
+        let terms = elt.firstChild.nextSibling.firstChild.innerText.split(" ");
+        ret[elt.firstChild.firstChild.innerText.split(" ")[1]] = new Date(terms[2], MONTHS.indexOf(terms[0]), terms[1].substring(0, terms[1].length - 1));
+        elt = elt.nextSibling;
+    }
+    return ret;
+}
+
 function genCalendar() {
     let boxes = Array.from(document.querySelectorAll('td'));
     const START_DATE = findStartDate();
@@ -136,7 +148,8 @@ function genFinalizedCalendar() {
         end_year: years[1],
         instructional_day_count: findInstructionalDayCount(),
         working_day_count: findWorkingDayCount(),
-        additional_emergency_dates: findAdditionalEmergencyDays().map((x)=>formatDate(x))
+        additional_emergency_dates: findAdditionalEmergencyDays().map((x)=>formatDate(x)),
+        marking_period_end_dates: findMarkingPeriodEndDates()
     };
 }
 
