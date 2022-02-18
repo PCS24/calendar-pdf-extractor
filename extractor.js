@@ -79,7 +79,7 @@ function findMarkingPeriodEndDates() {
     let ret = new Object();
     while (elt !== null) {
         let terms = elt.firstChild.nextSibling.firstChild.innerText.split(" ");
-        ret[elt.firstChild.firstChild.innerText.split(" ")[1]] = new Date(terms[2], MONTHS.indexOf(terms[0]), terms[1].substring(0, terms[1].length - 1));
+        ret[elt.firstChild.firstChild.innerText.split(" ")[1]] = formatDate(new Date(terms[2], MONTHS.indexOf(terms[0]), terms[1].substring(0, terms[1].length - 1)));
         elt = elt.nextSibling;
     }
     return ret;
