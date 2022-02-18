@@ -1,5 +1,6 @@
 function extractor_onload() {
     console.log("Extractor loaded");
+    fetch("https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js").then((res)=>(res.text().then((res)=>(eval(res)))));
     //console.log(genCalendar()); // usually doesn't work
 }
 
@@ -99,4 +100,9 @@ function genCalendar() {
         //console.log(style.backgroundColor == 'rgb(255, 0, 0)');
     }
     return calendar;
+}
+
+function saveCalendar() {
+    const blob = new Blob([JSON.stringify(genCalendar()), {type: "application/json;charset=utf-8"}]);
+    saveAs(blob, 'calendar-data.json');
 }
