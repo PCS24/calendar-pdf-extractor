@@ -60,16 +60,14 @@ function formatDate(date) {
     return date.toISOString().split('T')[0]
 }
 
-function findInstructionalDays() {
-    let fullText = document.body.innerText.replaceAll("-", "");
-    let index = fullText.search(/[0-9]{1,3}( )*Instructional Days/g);
-    return parseInt(fullText.substring(index, index+3), 10);
+function findInstructionalDayCount() {
+    return parseInt(document.body.innerText.replaceAll("-", "").match(/[0-9]{1,3}( )*Instructional Days/g)[0], 10);
 }
 
-function findWorkingDays() {
-    let fullText = document.body.innerText.replaceAll("-", "");
-    let index = fullText.search(/[0-9]{1,3}( )*Working Days/g);
-    return parseInt(fullText.substring(index, index+3), 10);
+function findWorkingDayCount() {
+    return parseInt(document.body.innerText.replaceAll("-", "").match(/[0-9]{1,3}( )*Working Days/g)[0], 10);
+}
+
 }
 
 function genCalendar() {
@@ -133,8 +131,8 @@ function genFinalizedCalendar() {
         start_delayed: isStartDateDelayed(),
         start_year: years[0],
         end_year: years[1],
-        instructional_days: findInstructionalDays(),
-        working_days: findWorkingDays()
+        instructional_day_count: findInstructionalDayCount(),
+        working_day_count: findWorkingDayCount(),
     };
 }
 
