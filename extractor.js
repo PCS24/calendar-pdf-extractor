@@ -68,6 +68,9 @@ function findWorkingDayCount() {
     return parseInt(document.body.innerText.replaceAll("-", "").match(/[0-9]{1,3}( )*Working Days/g)[0], 10);
 }
 
+function findAdditionalEmergencyDays() {
+    let years = findYears();
+    return document.body.innerText.match(/shall be taken.*([1-9]{1,2}\/[1-9]{1,2}(,*))+/g)[0].match(/[1-9]{1,2}\/[1-9]{1,2}/g).map((x)=>(x.split("/").map((x)=>(parseInt(x, 10))))).map((x)=>(new Date((x[0] >= 9 && x[0] <= 12) ? years[0] : years[1], x[0]-1, x[1])));
 }
 
 function genCalendar() {
@@ -133,6 +136,7 @@ function genFinalizedCalendar() {
         end_year: years[1],
         instructional_day_count: findInstructionalDayCount(),
         working_day_count: findWorkingDayCount(),
+        additional_emergency_dates: findAdditionalEmergencyDays().map((x)=>formatDate(x))
     };
 }
 
