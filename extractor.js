@@ -64,7 +64,9 @@ function genCalendar() {
         staff_only: [],
         regular: []
     };
-    if (isStartDateDelayed()) calendar.delayed.push(START_DATE.toISOString().split('T')[0]);
+    let start_date_val = START_DATE.toISOString().split('T')[0];
+    if (isStartDateDelayed()) calendar.delayed.push(start_date_val);
+    else calendar.regular.push(start_date_val);
     for (i = 0; i < boxes.length; i++) {
         let style = window.getComputedStyle(boxes[i]);
         if (boxes[i].children.length == 1 && boxes[i].firstChild.matches('p') && /^\d+$/.test(boxes[i].firstChild.innerText)) {
