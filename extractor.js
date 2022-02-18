@@ -103,6 +103,6 @@ function genCalendar() {
 }
 
 function saveCalendar() {
-    const blob = new Blob([JSON.stringify(genCalendar()), {type: "application/json;charset=utf-8"}]);
+    const blob = new Blob([JSON.stringify(genCalendar())], {type: "application/json;charset=utf-8"});
     saveAs(blob, 'calendar-data.json');
 }
