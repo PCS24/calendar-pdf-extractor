@@ -52,6 +52,14 @@ function findEndDate() {
     return new Date(terms[terms.length - 1], MONTHS.indexOf(terms[0]), terms[1].substring(0, terms[1].length - 1));
 }
 
+/**
+ * @param {Date} date 
+ * @returns {String}
+ */
+function formatDate(date) {
+    return date.toISOString().split('T')[0]
+}
+
 function genCalendar() {
     let boxes = Array.from(document.querySelectorAll('td'));
     const START_DATE = findStartDate();
@@ -64,7 +72,7 @@ function genCalendar() {
         staff_only: [],
         regular: []
     };
-    let start_date_val = START_DATE.toISOString().split('T')[0];
+    let start_date_val = formatDate(START_DATE);
     if (isStartDateDelayed()) calendar.delayed.push(start_date_val);
     else calendar.regular.push(start_date_val);
     for (i = 0; i < boxes.length; i++) {
@@ -76,7 +84,7 @@ function genCalendar() {
             let month_terms = findMonthTitleString(boxes[i]).split(" ");
             let date = new Date(month_terms[1], MONTHS.indexOf(month_terms[0]), boxes[i].firstChild.innerText);
             if ([0, 6].includes(date.getDay()) || date > END_DATE || date < START_DATE) continue;
-            let val = date.toISOString().split('T')[0];
+            let val = formatDate(date);
             let targ;
             switch (style.backgroundColor) {
                 case 'rgb(255, 0, 0)':
@@ -104,7 +112,19 @@ function genCalendar() {
     return calendar;
 }
 
+function genFinalizedCalendar() {
+    let years = findYears();
+    return {
+        dates: genCalendar(),
+        start_date: formatDate(findStartDate()),
+        end_date: formatDate(findEndDate()),
+        start_delayed: isStartDateDelayed(),
+        start_year: years[0],
+        end_year: years[1] 
+    };
+}
+
 function saveCalendar() {
-    const blob = new Blob([JSON.stringify(genCalendar())], {type: "application/json;charset=utf-8"});
+    const blob = new Blob([JSON.stringify(genFinalizedCalendar())], {type: "application/json;charset=utf-8"});
     saveAs(blob, 'calendar-data.json');
 }
