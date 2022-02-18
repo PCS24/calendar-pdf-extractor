@@ -60,6 +60,18 @@ function formatDate(date) {
     return date.toISOString().split('T')[0]
 }
 
+function findInstructionalDays() {
+    let fullText = document.body.innerText.replaceAll("-", "");
+    let index = fullText.search(/[0-9]{1,3}( )*Instructional Days/g);
+    return parseInt(fullText.substring(index, index+3), 10);
+}
+
+function findWorkingDays() {
+    let fullText = document.body.innerText.replaceAll("-", "");
+    let index = fullText.search(/[0-9]{1,3}( )*Working Days/g);
+    return parseInt(fullText.substring(index, index+3), 10);
+}
+
 function genCalendar() {
     let boxes = Array.from(document.querySelectorAll('td'));
     const START_DATE = findStartDate();
@@ -120,7 +132,9 @@ function genFinalizedCalendar() {
         end_date: formatDate(findEndDate()),
         start_delayed: isStartDateDelayed(),
         start_year: years[0],
-        end_year: years[1] 
+        end_year: years[1],
+        instructional_days: findInstructionalDays(),
+        working_days: findWorkingDays()
     };
 }
 
