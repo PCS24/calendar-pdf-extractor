@@ -79,7 +79,7 @@ function findMarkingPeriodEndDates() {
     let ret = new Object();
     while (elt !== null) {
         let terms = elt.firstChild.nextSibling.firstChild.innerText.split(" ");
-        ret[elt.firstChild.firstChild.innerText.split(" ")[1]] = formatDate(new Date(terms[2], MONTHS.indexOf(terms[0]), terms[1].substring(0, terms[1].length - 1)));
+        ret[elt.firstChild.firstChild.innerText.split(" ")[1]] = formatDate(new Date(terms[2], MONTHS.indexOf(terms[0].toUpperCase()), terms[1].substring(0, terms[1].length - 1)));
         elt = elt.nextSibling;
     }
     return ret;
@@ -107,7 +107,7 @@ function genCalendar() {
             
             // find month title box
             let month_terms = findMonthTitleString(boxes[i]).split(" ");
-            let date = new Date(month_terms[1], MONTHS.indexOf(month_terms[0]), boxes[i].firstChild.innerText);
+            let date = new Date(month_terms[1], MONTHS.indexOf(month_terms[0].toUpperCase()), boxes[i].firstChild.innerText);
             if ([0, 6].includes(date.getDay()) || date > END_DATE || date < START_DATE) continue;
             let val = formatDate(date);
             let targ;
