@@ -116,10 +116,11 @@ function genCalendar() {
                     targ = calendar.closed;
                     break;
                 case 'rgb(0, 176, 240)':
+                case 'rgb(0, 175, 239)': // Color updated for 2022-2023
                     targ = calendar.early_dismissal;
                     break;
                 case 'rgb(0, 175, 80)':
-                    targ = calendar.student_early_dismissal;
+                    targ = calendar.student_early_dismissal; // AKA staff professional development
                     break;
                 case 'rgb(255, 255, 0)':
                 case 'rgb(255, 153, 0)':
